@@ -18,6 +18,14 @@ public class BookingController {
 
 	@Autowired
 	private BookingService service;
+	
+	@PostMapping("generateTicket")
+	public ResponseEntity<Ticket> generateTicket(@RequestBody Payment payment) {
+		Ticket ticket = service.generateTicketWithTransaction(payment);
+
+		return new ResponseEntity<>(ticket, HttpStatus.OK);
+
+	}
 
 	@PostMapping("bookTicket")
 	public ResponseEntity<Ticket> bookTicket(@RequestBody Payment payment) {
@@ -26,5 +34,6 @@ public class BookingController {
 		return new ResponseEntity<>(ticket, HttpStatus.OK);
 
 	}
-
+	
+	
 }

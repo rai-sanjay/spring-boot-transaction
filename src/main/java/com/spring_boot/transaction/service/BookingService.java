@@ -17,7 +17,34 @@ public class BookingService {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
+	
+	@Autowired
+	private TicketService service;
 
+	@Transactional
+	public Ticket generateTicketWithTransaction(Payment payment) {
+		paymentRepository.save(payment);
+		Ticket ticket = new Ticket();
+		ticket.setBoardingStation("Howrah");
+		ticket.setDestinyStation("Chhapra");
+		ticket.setPnr(657896598l);
+		ticket.setTrainName("Sealdah Ballia Express");
+		ticket.setTrainNumber(13031);
+		
+		/*Ticket Service has a Database call to persist ticket, but
+		 * it will not persist, until this method executes completely.
+		 * Because that is also part of same transaction
+		 * */
+		Ticket generatedTicket = service.generateTicket(ticket);
+		System.out.println("Ticket generated - "+generatedTicket.getPnr());
+		return generatedTicket;
+	}
+	
+	
+	
+	
+	
+	
 	/*
 	 * Payment Details are saved in database
 	 * Since unexpected error occurred, so Ticket is not generated
@@ -35,9 +62,10 @@ public class BookingService {
 		ticket.setPnr(657896598l);
 		ticket.setTrainName("Sealdah Ballia Express");
 		ticket.setTrainNumber(13031);
-
 		ticketRepository.save(ticket);
 		return ticket;
 
 	}
+
+	
 }

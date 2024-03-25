@@ -39,7 +39,10 @@ public class BookingService {
 		System.out.println("Ticket generated - "+generatedTicket.getPnr());
 		return generatedTicket;
 	}
-	
+	/*Save Point - If any exception occurs in ticket
+	 * service method, only that will be rolled back
+	 * all logic before Save Point will be persisted
+	*/
 	
 	
 	

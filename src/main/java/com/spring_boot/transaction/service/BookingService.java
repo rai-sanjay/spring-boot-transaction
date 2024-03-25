@@ -21,7 +21,7 @@ public class BookingService {
 	@Autowired
 	private TicketService service;
 
-	@Transactional
+	@Transactional(timeout = 30)
 	public Ticket generateTicketWithTransaction(Payment payment) {
 		paymentRepository.save(payment);
 		Ticket ticket = new Ticket();

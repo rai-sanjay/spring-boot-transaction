@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring_boot.transaction.entity.Payment;
 import com.spring_boot.transaction.entity.Ticket;
+import com.spring_boot.transaction.exception.CustomException;
+import com.spring_boot.transaction.exception.SpecificException;
 import com.spring_boot.transaction.service.BookingService;
 
 @RestController
@@ -34,6 +36,12 @@ public class BookingController {
 		return new ResponseEntity<>(ticket, HttpStatus.OK);
 
 	}
-	
+	@PostMapping("bookFlight")
+	public ResponseEntity<Ticket> bookFlight(@RequestBody Payment payment) throws CustomException, SpecificException {
+		Ticket ticket = service.bookFlight(payment);
+
+		return new ResponseEntity<>(ticket, HttpStatus.OK);
+
+	}
 	
 }

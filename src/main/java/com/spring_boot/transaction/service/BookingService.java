@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring_boot.transaction.entity.Payment;
 import com.spring_boot.transaction.entity.Ticket;
+import com.spring_boot.transaction.exception.CustomException;
+import com.spring_boot.transaction.exception.SpecificException;
 import com.spring_boot.transaction.repository.PaymentRepository;
 import com.spring_boot.transaction.repository.TicketRepository;
 
@@ -68,6 +70,22 @@ public class BookingService {
 		ticketRepository.save(ticket);
 		return ticket;
 
+	}
+
+	@Transactional(rollbackFor = CustomException.class, noRollbackFor = SpecificException.class)
+	public Ticket bookFlight(Payment payment) throws  SpecificException {
+		Ticket ticket = new Ticket();
+		ticket.setBoardingStation("Patna");
+		ticket.setDestinyStation("London");
+		ticket.setPnr(657896598l);
+		ticket.setTrainName("Air India");
+		ticket.setTrainNumber(13031);
+		ticketRepository.save(ticket);
+		ticket =null;
+		if(null == ticket) {
+			throw new SpecificException("Ticket is empty");
+		}
+		return ticket;
 	}
 
 	
